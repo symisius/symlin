@@ -1,67 +1,46 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
+import React from 'react';
+import { View, Text, Button } from 'react-native';
+import { createStackNavigator, StackActions, NavigationActions } from 'react-navigation'; // Version can be specified in package.json
+import Welcome from './WelcomeScreen';
 
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View,  Image } from 'react-native';
-import Judul from './Components/Judul';
-import Login from './Screens/Login';
-
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
-
-type Props = {};
-export default class App extends Component<Props> {
+class HomeScreen extends React.Component {
   render() {
     return (
-      <View style={styles.container}>
-
-        <Judul title="BIODATA"/>
-        <Judul title= "LOGIN"/>
-        <Judul title= "NAMBAH"/>
-         <Text style={styles.welcome}>Hello lol :D </Text>
-        <Text style={styles.welcome}>Nama   : Symisius Lintang Ranataru </Text>
-        <Text style={styles.blue}>Kelas     : XI RPL 3 </Text>
-        <Text style={styles.red}>No Absen   :37 </Text>
-          <Image 
-        style={{width: 400, height: 400}}
-        resizeMode="contain"
-        source={{ uri: 'https://scontent.fsub2-2.fna.fbcdn.net/v/t1.0-9/40044386_246628869225574_7152952574730043392_o.jpg?_nc_cat=0&_nc_eui2=AeGFclgg_dOhkgTPGZQqXrcOEuQ5Nbm3_7UISe5F9y_XvCbik9yRRxBq-jnDVHgW8rlqSZChtOXWSlfBwOGqpcPFQouuQ93_b0cixzL_YBtDtfsaZSgquVb3_ErbW9-6odQ&oh=493d97e6a2d4fe7691059f4f4f72da46&oe=5C33F74A' }}
-    />
-         
-
-        <Text style={styles.welcome} numberOfLines={1} onLongPress={() => alert('longPress')}>
-           Press Cmd+R to reload,{'\n'}
-        Cmd+D or shake for dev menu
-     </Text>
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Text>Home Screen</Text>
+        <Button
+          title="Go to Details"
+          onPress={() => {
+            this.props.navigation.dispatch(StackActions.reset({
+              index: 0,
+              actions: [
+                NavigationActions.navigate({ routeName: 'Details' })
+              ],
+            }))
+          }}
+        />
       </View>
     );
-  }
+  }  
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+class DetailsScreen extends React.Component {
+  render() {
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Welcome/>
+      </View>
+    );
+  }  
+}
+
+export default createStackNavigator({
+  Home: {
+    screen: HomeScreen,
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  Details: {
+    screen: DetailsScreen,
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+}, {
+    initialRouteName: 'Home',
 });
